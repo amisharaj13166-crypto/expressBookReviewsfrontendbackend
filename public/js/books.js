@@ -4,11 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const countElement = document.getElementById("bookCount");
     const noBooksMessage = document.getElementById("noBooksMessage");
 
-    let allBooks = {};
+    let searchInitialized = false;
 
     async function loadBooks() {
         try {
-            const response = await fetch("/books");
+            const response = await fetch("/books", {
+    cache: "no-store"
+});
 
             if (!response.ok) {
                 throw new Error("Unable to load books.");
@@ -20,17 +22,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 displayFeaturedBooks();
             }
 
-            if (booksContainer) {
-                const searchInput = document.getElementById("bookSearchInput");
-                const params = new URLSearchParams(window.location.search);
-                const initialSearch = params.get("search") || "";
+           if (booksContainer) {
+    const searchInput = document.getElementById("bookSearchInput");
 
-                if (searchInput) {
-                    searchInput.value = initialSearch;
-                }
+    if (!searchInitialized) {
+        const params = new URLSearchParams(window.location.search);
+        const initialSearch = params.get("search") || "";
 
-                displayBooks(initialSearch);
-            }
+        if (searchInput) {
+            searchInput.value = initialSearch;
+        }
+
+        searchInitialized = true;
+    }
+
+    displayBooks(searchInput ? searchInput.value : "");
+}
         } catch (error) {
             console.error(error);
 
@@ -43,6 +50,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
+    function refreshBookPages() {
+    const searchInput = document.getElementById("bookSearchInput");
+    const currentSearch = searchInput ? searchInput.value : "";
+
+    if (featuredContainer) {
+        displayFeaturedBooks();
+    }
+
+    if (booksContainer) {
+        displayBooks(currentSearch);
+    }
+}
 
     
 function createBookCard(isbn, book) {
@@ -144,6 +163,17 @@ function createBookCard(isbn, book) {
             window.location.href = `books.html?search=${search}`;
         });
     }
+    // Listen for book changes from the administrator dashboard
+// Listen for book changes from the administrator dashboard
+if ("BroadcastChannel" in window) {
+    const bookChannel = new BroadcastChannel("book-collection");
 
-    loadBooks();
+    bookChannel.addEventListener("message", (event) => {
+        if (event.data === "books-updated") {
+            loadBooks();
+        }
+    });
+}
+
+loadBooks();
 });

@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Express Book Reviews</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+ <header class="header">
+  <nav class="navbar container" aria-label="Main navigation">
+    <a href="index.html" class="logo">
+      Express Book <span>Reviews.</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="books.html">Explore Books</a></li>
+      <li><a href="index.html#featured">Featured</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="my-reviews.html">My Reviews</a></li>
+      <li><a href="admin-login.html">Admin</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="login.html" class="login-link">Login</a>
+      <a href="register.html" class="btn btn-primary">Join Us</a>
+    </div>
+  </nav>
+</header>
+
+<main class="auth-section">
+    <div class="auth-card">
+        <p class="section-label">ADMINISTRATION</p>
+        <h1>Administrator Login</h1>
+        <p>Sign in to manage your book collection and platform.</p>
+
+        <form id="adminLoginForm">
+            <label for="username">Admin Username</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter admin username"
+                autocomplete="username"
+                required
+            >
+
+            <label for="password">Admin Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter admin password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button type="submit" class="primary-button" id="adminLoginButton">
+                Login as Administrator
+            </button>
+
+            <p id="adminAuthMessage" class="form-message" role="status"></p>
+        </form>
+
+        <p class="auth-switch">
+            Not an administrator?
+            <a href="login.html">Reader Login</a>
+        </p>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container footer-content">
+
+        <div class="footer-brand">
+            <a href="index.html" class="logo footer-logo">
+                Express Book <span>Reviews.</span>
+            </a>
+
+            <p>
+                Discover stories. Share thoughts.<br>
+                Make every page count.
+            </p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer navigation">
+            <a href="index.html">Home</a>
+            <a href="books.html">Explore Books</a>
+            <a href="index.html#featured">Featured</a>
+            <a href="index.html#about">About</a>
+            <a href="my-reviews.html">My Reviews</a>
+            <a href="admin-login.html">Admin</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Join Us</a>
+        </nav>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2026 Express Book Reviews. Built with a love for books.</p>
+    </div>
+</footer>
+
+<script src="js/admin-login.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>

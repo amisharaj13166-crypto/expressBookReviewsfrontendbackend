@@ -1,236 +1,252 @@
-const express = require('express');
-const { books } = require("./booksdb");
-let isValid = require("./auth_users.js").isValid;
-let users = require("./auth_users.js").users;
-const axios = require("axios");
-const public_users = express.Router();
+const express = require("express");
+const Book = require("../models/Book");
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 
+const public_users = express.Router();
 
 public_users.use(express.json());
 
 
+// ========================================
+// 1. USER REGISTRATION
+// ========================================
 
+public_users.post("/register", async (req, res) => {
+    try {
+        const { username, password } = req.body;
 
-public_users.post("/register", (req,res) => {
-  //Write your code here
-  let username = req.body.username;
-  let password = req.body.password;
-  console.log(req.body)
-  if(username && password){
-    if(isValid(username)){
-      users.push({username:username,password:password});
-      return res.status(200).json({message: "User registered successfully"});
+        if (!username || !password) {
+            return res.status(400).json({
+                message: "Username and password are required"
+            });
+        }
+
+        const cleanUsername = username.trim();
+
+        if (cleanUsername.length < 3) {
+            return res.status(400).json({
+                message: "Username must contain at least 3 characters"
+            });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({
+                message: "Password must contain at least 6 characters"
+            });
+        }
+
+        const existingUser = await User.findOne({
+            username: cleanUsername
+        });
+
+        if (existingUser) {
+            return res.status(409).json({
+                message: "Username already exists"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+
+        await User.create({
+            username: cleanUsername,
+            password: hashedPassword
+        });
+
+        return res.status(201).json({
+            message: "User registered successfully"
+        });
+
+    } catch (error) {
+        if (error.code === 11000) {
+            return res.status(409).json({
+                message: "Username already exists"
+            });
+        }
+
+        console.error("Registration error:", error);
+
+        return res.status(500).json({
+            message: "Unable to register user"
+        });
     }
-    else{
-      return res.status(400).json({message: "Username already exists"});
-    }
-  }else{
-    return res.status(400).json({message: "Username or password not provided"});
-  }
-
-
-});
-//task 1 
-// Get the book list available in the shop
-// public_users.get('/', async function (req, res) {
-
-//   if (books) {
-//     return res.status(200).send(JSON.stringify(books, null, 4));
-//   } else {
-//     return res.status(404).json({ message: "No books found" });
-//   }
-// });
-
-
-public_users.get('/', async function (req, res) {
-  //Write your code here
-  console.log('hello m here');
-  axios.get('http://localhost:8080/books').then(
-    (responseBooks)=>{
-      return res.status(200).send(JSON.stringify(responseBooks.data,null , 4));
-    }
-  ).catch(e=>
-    res.status(404).send("cant get books <br>  "+ e)
-    )
-});
-
-
-
-// Get book details based on ISBN
-
-//task 2
-// public_users.get('/isbn/:isbn',function (req, res) {
-//   //Write your code here
-//   let isbn = req.params.isbn;
-//   if(books[isbn]){
-//     return res.status(200).send(JSON.stringify(books[isbn],null,4));
-//   }
-//   else{
-//     return res.status(404).send("No book found with ISBN "+isbn);
-//   }
-
-//  });
-  
- // task 11
-public_users.get('/isbn/:isbn', async function (req, res) {
-  // Write your code here
-  let isbn = req.params.isbn;
-
-  try {
-    const response = await axios.get('http://localhost:8080/books');
-
-    if (response.data[isbn]) {
-      return res.status(200).send(JSON.stringify(response.data[isbn], null, 4));
-    } else {
-      return res.status(404).send("No book found with ISBN " + isbn);
-    }
-  } catch (error) {
-    // Handle errors, e.g., network issues or API errors
-    console.error(error);
-    return res.status(500).send("Internal Server Error");
-  }
 });
 
 
+// ========================================
+// 2. GET ALL BOOKS
+// ========================================
 
+public_users.get("/", async (req, res) => {
+    try {
+        const allBooks = await Book.find().sort({ bookId: 1 });
 
+        if (allBooks.length === 0) {
+            return res.status(404).json({
+                message: "No books found"
+            });
+        }
 
+        const booksObject = {};
 
+        allBooks.forEach((book) => {
+            booksObject[book.bookId] = {
+                isbn: book.isbn,
+                title: book.title,
+                author: book.author,
+                cover: book.cover,
+                reviews: book.reviews || {}
+            };
+        });
 
+        return res.status(200).json(booksObject);
 
-// Get book details based on author 
-//task 3
-// public_users.get('/author/:author',function (req, res) {
-//   //Write your code here
-//   let author = req.params.author;
-//   let booksByAuthor = [];
-//   for(let isbn in books){
-//     if(books[isbn].author == author){
-//       booksByAuthor.push(books[isbn]);
-//     }
-//   }
-//   if(booksByAuthor.length>0){
-//     return res.status(200).send(JSON.stringify(booksByAuthor,null,4));
-//   }
-//   else{
-//     return res.status(404).send("No book found with author "+author);
-//   }
-// });
+    } catch (error) {
+        console.error("Error fetching books:", error);
 
-//task 12
-public_users.get('/author/:author', async function (req, res) {
-  // Write your code here
-  let author = req.params.author;
-  let booksByAuthor = [];
-
-  try {
-    // Assuming the API endpoint for getting all books is http://localhost:8080/books
-    const response = await axios.get('http://localhost:8080/books');
-
-    for (let isbn in response.data) {
-      if (response.data[isbn].author == author) {
-        booksByAuthor.push(response.data[isbn]);
-      }
+        return res.status(500).json({
+            message: "Unable to fetch books"
+        });
     }
-
-    if (booksByAuthor.length > 0) {
-      return res.status(200).send(JSON.stringify(booksByAuthor, null, 4));
-    } else {
-      return res.status(404).send("No book found with author " + author);
-    }
-  } catch (error) {
-    // Handle errors, e.g., network issues or API errors
-    console.error(error);
-    return res.status(500).send("Internal Server Error");
-  }
 });
 
 
+// ========================================
+// 3. GET BOOK DETAILS BY BOOK ID
+// ========================================
 
+public_users.get("/isbn/:isbn", async (req, res) => {
+    try {
+        const bookId = Number(req.params.isbn);
 
+        const book = await Book.findOne({ bookId });
 
+        if (!book) {
+            return res.status(404).send(
+                "No book found with ID " + req.params.isbn
+            );
+        }
 
+        return res.status(200).json({
+            isbn: book.isbn,
+            title: book.title,
+            author: book.author,
+            cover: book.cover,
+            reviews: book.reviews || {}
+        });
 
+    } catch (error) {
+        console.error("Error fetching book:", error);
 
-
-
-
-
-// Get all books based on title
-//task 4
-// public_users.get('/title/:title',function (req, res) {
-//   //Write your code here
-//   let title = req.params.title;
-//   let booksByTitle = [];
-//   for(let isbn in books){
-//     if(books[isbn].title == title){
-//       booksByTitle.push(books[isbn]);
-//     }
-//   }
-//   if(booksByTitle.length>0){
-//     return res.status(200).send(JSON.stringify(booksByTitle,null,4));
-//   }
-//   else{
-//     return res.status(404).send("No book found with title "+title);
-//   }
-
-// });
-
-//task 13
-
-public_users.get('/title/:title', async function (req, res) {
-  // Write your code here
-  let title = req.params.title;
-  let booksByTitle = [];
-
-  try {
-    // Assuming the API endpoint for getting all books is http://localhost:8080/books
-    const response = await axios.get('http://localhost:8080/books');
-
-    for (let isbn in response.data) {
-      if (response.data[isbn].title == title) {
-        booksByTitle.push(response.data[isbn]);
-      }
+        return res.status(500).send("Internal Server Error");
     }
-
-    if (booksByTitle.length > 0) {
-      return res.status(200).send(JSON.stringify(booksByTitle, null, 4));
-    } else {
-      return res.status(404).send("No book found with title " + title);
-    }
-  } catch (error) {
-    // Handle errors, e.g., network issues or API errors
-    console.error(error);
-    return res.status(500).send("Internal Server Error");
-  }
 });
 
 
+// ========================================
+// 4. GET BOOKS BY AUTHOR
+// ========================================
 
+public_users.get("/author/:author", async (req, res) => {
+    try {
+        const author = req.params.author;
 
+        const booksByAuthor = await Book.find({
+            author: {
+                $regex: `^${author.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
+                $options: "i"
+            }
+        }).sort({ bookId: 1 });
 
+        if (booksByAuthor.length === 0) {
+            return res.status(404).send(
+                "No book found with author " + author
+            );
+        }
 
+        const result = booksByAuthor.map((book) => ({
+            isbn: book.isbn,
+            title: book.title,
+            author: book.author,
+            cover: book.cover,
+            reviews: book.reviews || {}
+        }));
 
+        return res.status(200).json(result);
 
+    } catch (error) {
+        console.error("Error searching by author:", error);
 
-
-
-
-
-
-
-
-
-//  Get book review
-public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  let isbn = req.params.isbn;
-  if(books[isbn]){
-    return res.status(200).send(JSON.stringify(books[isbn].reviews,null,4));
-  }
-  else{
-    return res.status(404).send("No book found with ISBN "+isbn);
-  }
+        return res.status(500).send("Internal Server Error");
+    }
 });
+
+
+// ========================================
+// 5. GET BOOKS BY TITLE
+// ========================================
+
+public_users.get("/title/:title", async (req, res) => {
+    try {
+        const title = req.params.title;
+
+        const booksByTitle = await Book.find({
+            title: {
+                $regex: `^${title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
+                $options: "i"
+            }
+        }).sort({ bookId: 1 });
+
+        if (booksByTitle.length === 0) {
+            return res.status(404).send(
+                "No book found with title " + title
+            );
+        }
+
+        const result = booksByTitle.map((book) => ({
+            isbn: book.isbn,
+            title: book.title,
+            author: book.author,
+            cover: book.cover,
+            reviews: book.reviews || {}
+        }));
+
+        return res.status(200).json(result);
+
+    } catch (error) {
+        console.error("Error searching by title:", error);
+
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+
+// ========================================
+// 6. GET BOOK REVIEWS
+// ========================================
+
+public_users.get("/review/:isbn", async (req, res) => {
+    try {
+        const bookId = Number(req.params.isbn);
+
+        const book = await Book.findOne({ bookId });
+
+        if (!book) {
+            return res.status(404).json({
+                message: "No book found with ID " + req.params.isbn
+            });
+        }
+
+        return res.status(200).json(book.reviews || {});
+
+    } catch (error) {
+        console.error("Error fetching reviews:", error);
+
+        return res.status(500).json({
+            message: "Unable to fetch reviews"
+        });
+    }
+});
+
 
 module.exports.general = public_users;

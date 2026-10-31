@@ -5,3 +5,5 @@ node_modules/
 cookies.txt
 .DS_Store
 *.backup
+admin-cookies.txt
+*.bak

@@ -1,5 +1,6 @@
 
 const express = require("express");
+const Book = require("../models/Book");
 const regd_books = express.Router();
 
 // Book collection
@@ -184,8 +185,32 @@ const books = {
 };
 
 // Get all books
-regd_books.get("/", (req, res) => {
-    res.json(books);
+// Get all books directly from MongoDB
+regd_books.get("/", async (req, res) => {
+    try {
+        const allBooks = await Book.find().sort({ bookId: 1 });
+
+        const booksObject = {};
+
+        allBooks.forEach((book) => {
+            booksObject[book.bookId] = {
+                isbn: book.isbn,
+                title: book.title,
+                author: book.author,
+                cover: book.cover,
+                reviews: book.reviews || {}
+            };
+        });
+
+        return res.status(200).json(booksObject);
+
+    } catch (error) {
+        console.error("Error fetching books:", error);
+
+        return res.status(500).json({
+            message: "Unable to fetch books from database."
+        });
+    }
 });
 
 module.exports = { books, regd_books };

@@ -4,8 +4,8 @@
     root.setAttribute("data-theme", savedTheme);
 
     function addThemeToggle() {
-        const navActions = document.querySelector(".nav-actions");
-        if (!navActions || document.querySelector(".theme-toggle")) return;
+        const navbar = document.querySelector(".navbar");
+if (!navbar || document.querySelector(".theme-toggle")) return;
 
         const button = document.createElement("button");
         button.type = "button";
@@ -31,7 +31,7 @@
         });
 
         updateButton();
-        navActions.prepend(button);
+        navbar.appendChild(button);
     }
 
     if (document.readyState === "loading") {
