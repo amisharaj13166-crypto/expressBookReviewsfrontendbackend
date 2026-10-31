@@ -192,3 +192,18 @@
 :root[data-theme="dark"] .theme-toggle:hover {
     background: #344C3D;
 }
+/* Improve form label visibility in dark mode */
+:root[data-theme="dark"] .auth-card label,
+:root[data-theme="dark"] .review-form-section label,
+:root[data-theme="dark"] .form-group label {
+    color: #F3E9D8;
+}
+
+/* Improve authentication heading visibility in dark mode */
+:root[data-theme="dark"] .auth-card .section-label {
+    color: #E8B88F;
+}
+
+:root[data-theme="dark"] .auth-card h1 {
+    color: #F3E9D8;
+}
