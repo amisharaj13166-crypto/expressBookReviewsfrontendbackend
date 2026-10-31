@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Express Book Reviews | Online Bookstore</title>
+
+    <meta
+      name="description"
+      content="Discover books, explore timeless stories and share your book reviews with PageTurn."
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/theme.css">
+  </head>
+
+  <body>
+    <!-- NAVIGATION -->
+
+    <header class="header">
+      <nav class="navbar container">
+        <a href="index.html" class="logo">
+          Express Book <span>Reviews.</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="books.html">Explore Books</a></li>
+          <li><a href="index.html#featured">Featured</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+          <li><a href="admin.html">Dashboard</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="login.html" class="login-link">Login</a>
+          <a href="register.html" class="btn btn-primary">Join Us</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div class="container hero-content">
+          <div class="hero-text">
+            <span class="eyebrow"> YOUR NEXT CHAPTER STARTS HERE </span>
+
+            <h1>
+              Find the book<br />
+              that <span>finds you.</span>
+            </h1>
+
+            <p>
+              Explore inspiring stories, timeless classics, and extraordinary
+              ideas. Your next favourite book is just a page away.
+            </p>
+
+            <div class="hero-buttons">
+              <a href="books.html" class="btn btn-primary">
+                Explore Collection →
+              </a>
+
+              <a href="#featured" class="btn btn-outline"> Discover More </a>
+            </div>
+
+            <div class="hero-stats">
+              <div>
+                <h3>10+</h3>
+                <p>Classic Books</p>
+              </div>
+
+              <div>
+                <h3>100%</h3>
+                <p>Love for Reading</p>
+              </div>
+
+              <div>
+                <h3>24/7</h3>
+                <p>Explore Anytime</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOOK ILLUSTRATION -->
+          <div class="hero-image">
+            <div class="hero-image-card">
+              <div class="book-cover cover-one">
+                <span>THE ART OF</span>
+                <h2>READING</h2>
+                <p>A WORLD OF STORIES</p>
+              </div>
+
+              <div class="book-cover cover-two">
+                <span>DISCOVER</span>
+                <h2>NEW<br />WORLDS</h2>
+              </div>
+
+              <div class="book-cover cover-three">
+                <span>THE POWER OF</span>
+                <h2>WORDS</h2>
+              </div>
+            </div>
+
+            <div class="floating-note">
+              <span>✦</span>
+              Every book opens a new world.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH SECTION -->
+      <section class="search-section">
+        <div class="container">
+          <form class="search-box" id="homeSearchForm">
+            <span class="search-icon">⌕</span>
+
+            <input
+              type="text"
+              id="homeSearch"
+              placeholder="Search by book title or author..."
+            />
+
+            <button type="submit" class="btn btn-primary">Search Books</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- FEATURED BOOKS -->
+      <section class="featured section-padding" id="featured">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow"> HANDPICKED FOR YOU </span>
+
+              <h2>Featured <span>Books</span></h2>
+
+              <p>Stories worth reading, remembering and sharing.</p>
+            </div>
+
+            <a href="books.html" class="text-link"> View All Books → </a>
+          </div>
+
+          <!-- Books will be loaded from Express API -->
+          <div class="book-grid" id="featuredBooks">
+            <div class="loading-message">Loading books...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CATEGORIES -->
+      <section class="categories section-padding">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow"> EXPLORE YOUR INTERESTS </span>
+
+              <h2>Browse by <span>Interest</span></h2>
+
+              <p>Find something that matches your mood.</p>
+            </div>
+          </div>
+
+          <div class="category-grid">
+            <a href="books.html" class="category-card">
+              <span>📚</span>
+              <h3>Classics</h3>
+              <p>Timeless literature</p>
+            </a>
+
+            <a href="books.html" class="category-card">
+              <span>✨</span>
+              <h3>Fiction</h3>
+              <p>Stories and imagination</p>
+            </a>
+
+            <a href="books.html" class="category-card">
+              <span>💡</span>
+              <h3>Inspiration</h3>
+              <p>Ideas that motivate</p>
+            </a>
+
+            <a href="books.html" class="category-card">
+              <span>🌍</span>
+              <h3>World Literature</h3>
+              <p>Discover new cultures</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section class="about-section section-padding" id="about">
+        <div class="container about-content">
+          <div class="about-decoration">
+            <span>“</span>
+
+            <h2>A reader lives a thousand lives before he dies.</h2>
+
+            <p>Every page is a new beginning.</p>
+          </div>
+
+          <div class="about-text">
+            <span class="eyebrow"> ABOUT PAGETURN </span>
+
+            <h2>
+              More than a bookstore.<br />
+              A place for <span>book lovers.</span>
+            </h2>
+
+            <p>
+              PageTurn is an online book discovery platform designed to help
+              readers explore books, discover meaningful stories and share their
+              thoughts through reviews.
+            </p>
+
+            <a href="books.html" class="btn btn-primary"> Start Exploring → </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+      <div class="container footer-content">
+        <div>
+          <a href="index.html" class="logo footer-logo">
+            Express Book <span>Reviews.</span>
+          </a>
+
+          <p>
+            Discover stories. Share thoughts.<br />
+            Make every page count.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="books.html">Explore Books</a>
+          <a href="index.html#featured">Featured</a>
+          <a href="index.html#about">About</a>
+          <a href="my-reviews.html">My Reviews</a>
+          <a href="admin.html">Dashboard</a>
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Express Book Reviews. Built with a love for books.</p>
+      </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script src="js/app.js"></script>
+    <script src="js/books.js"></script>
+    <script src="js/theme.js"></script>
+  </body>
+</html>

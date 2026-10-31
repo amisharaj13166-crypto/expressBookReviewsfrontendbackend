@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Books | PageTurn</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+   
+    <header class="header">
+      <nav class="navbar container">
+        <a href="index.html" class="logo">
+          Express Book <span>Reviews.</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="books.html">Explore Books</a></li>
+          <li><a href="index.html#featured">Featured</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+          <li><a href="admin.html">Dashboard</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="login.html" class="login-link">Login</a>
+          <a href="register.html" class="btn btn-primary">Join Us</a>
+        </div>
+      </nav>
+    </header>
+
+
+    <!-- Explore Books Hero -->
+    <main>
+
+        <section class="books-hero">
+            <div class="container">
+
+                <p class="section-label">YOUR NEXT GREAT READ</p>
+
+                <h1>Explore Our <span>Bookshelf</span></h1>
+
+                <p>
+                    Discover wonderful stories, explore different authors,
+                    and find your next favourite book.
+                </p>
+
+            </div>
+        </section>
+
+
+        <!-- Search Section -->
+        <section class="books-section">
+            <div class="container">
+
+                <div class="books-toolbar">
+
+                    <div>
+                        <h2>All Books</h2>
+                        <p>Explore our available collection.</p>
+                    </div>
+
+                    <form id="bookSearchForm" class="book-search">
+                        <input
+                            type="text"
+                            id="bookSearchInput"
+                            placeholder="Search by title or author..."
+                            aria-label="Search books"
+                        >
+
+                        <button type="submit">Search</button>
+                    </form>
+
+                </div>
+
+
+                <!-- Book count -->
+                <div class="books-meta">
+                    <p id="bookCount">Loading books...</p>
+                </div>
+
+
+                <!-- Books will be inserted here using JavaScript -->
+                <div id="booksGrid" class="books-grid">
+
+                    <p class="loading-message">Loading your bookshelf...</p>
+
+                </div>
+
+
+                <!-- Message for no results -->
+                <div id="noBooksMessage" class="no-books-message" hidden>
+                    <h3>No books found</h3>
+                    <p>Try searching with another title or author.</p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <div>
+          <a href="index.html" class="logo footer-logo">
+            Express Book <span>Reviews.</span>
+          </a>
+
+          <p>
+            Discover stories. Share thoughts.<br />
+            Make every page count.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="books.html">Explore Books</a>
+          <a href="index.html#featured">Featured</a>
+          <a href="index.html#about">About</a>
+          <a href="my-reviews.html">My Reviews</a>
+          <a href="admin.html">Dashboard</a>
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Express Book Reviews. Built with a love for books.</p>
+      </div>
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+    <script src="js/books.js"></script>
+    <script src="js/theme.js"></script>
+
+</body>
+</html>

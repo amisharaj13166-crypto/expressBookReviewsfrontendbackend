@@ -1,0 +1,194 @@
+
+/* =========================================
+   PREMIUM DARK MODE - MIDNIGHT FOREST
+========================================= */
+
+:root[data-theme="dark"] {
+    --bg-color: #101D18;
+    --surface-color: #263A2F;
+    --text-color: #F3E9D8;
+    --muted-color: #B9C8BC;
+    --border-color: #3B5144;
+    --nav-color: #1B2B23;
+    --footer-color: #0B1510;
+}
+
+:root[data-theme="dark"] body {
+    background: #101D18;
+    color: #F3E9D8;
+}
+
+/* Navbar */
+:root[data-theme="dark"] .header,
+:root[data-theme="dark"] .navbar {
+    background: #1B2B23;
+    border-color: #3B5144;
+}
+
+:root[data-theme="dark"] .logo {
+    color: #F3E9D8;
+}
+
+:root[data-theme="dark"] .nav-links a,
+:root[data-theme="dark"] .login-link {
+    color: #E5E9E1;
+}
+
+/* Main sections */
+:root[data-theme="dark"] .hero,
+:root[data-theme="dark"] .categories,
+:root[data-theme="dark"] .books-hero,
+:root[data-theme="dark"] .auth-section,
+:root[data-theme="dark"] .page-section {
+    background: #101D18;
+}
+
+/* Headings */
+:root[data-theme="dark"] .hero h1,
+:root[data-theme="dark"] .section-heading h2,
+:root[data-theme="dark"] .about-text h2,
+:root[data-theme="dark"] .books-hero h1,
+:root[data-theme="dark"] .books-toolbar h2,
+:root[data-theme="dark"] .page-heading,
+:root[data-theme="dark"] .details-information h1,
+:root[data-theme="dark"] .reviews-section h2,
+:root[data-theme="dark"] .review-form-section h2 {
+    color: #F3E9D8;
+}
+
+/* Paragraphs */
+:root[data-theme="dark"] .hero-text > p,
+:root[data-theme="dark"] .hero-stats p,
+:root[data-theme="dark"] .section-heading p,
+:root[data-theme="dark"] .books-hero p,
+:root[data-theme="dark"] .page-description,
+:root[data-theme="dark"] .details-information p {
+    color: #B9C8BC;
+}
+
+/* Cards */
+:root[data-theme="dark"] .book-card,
+:root[data-theme="dark"] .category-card,
+:root[data-theme="dark"] .review-card,
+:root[data-theme="dark"] .auth-card,
+:root[data-theme="dark"] .dashboard-card {
+    background: #263A2F;
+    border-color: #3B5144;
+    color: #F3E9D8;
+}
+
+:root[data-theme="dark"] .book-card h3,
+:root[data-theme="dark"] .book-info h3,
+:root[data-theme="dark"] .category-card h3,
+:root[data-theme="dark"] .auth-card h1 {
+    color: #F3E9D8;
+}
+
+/* Search and form fields */
+:root[data-theme="dark"] .search-box,
+:root[data-theme="dark"] .floating-note {
+    background: #263A2F;
+    border: 1px solid #3B5144;
+    color: #F3E9D8;
+}
+
+:root[data-theme="dark"] input,
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select {
+    background: #15251C;
+    color: #F3E9D8;
+    border: 1px solid #486050;
+}
+
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder {
+    color: #A7B8AA;
+}
+
+/* About decoration */
+:root[data-theme="dark"] .about-decoration {
+    background: #263A2F;
+}
+
+:root[data-theme="dark"] .about-decoration h2,
+:root[data-theme="dark"] .about-decoration p {
+    color: #F3E9D8;
+}
+
+/* Review and dashboard tables */
+:root[data-theme="dark"] .dashboard-table {
+    background: #263A2F;
+}
+
+:root[data-theme="dark"] .dashboard-table th {
+    background: #1B2B23;
+    color: #F3E9D8;
+}
+
+:root[data-theme="dark"] .dashboard-table td {
+    color: #E5E9E1;
+    border-color: #3B5144;
+}
+
+:root[data-theme="dark"] .dashboard-note {
+    background: #263A2F;
+    color: #B9C8BC;
+}
+
+/* Buttons and highlights */
+:root[data-theme="dark"] .btn-primary {
+    background: #E58A5C;
+    color: #21150F;
+}
+
+:root[data-theme="dark"] .eyebrow,
+:root[data-theme="dark"] .hero h1 span,
+:root[data-theme="dark"] .section-heading h2 span,
+:root[data-theme="dark"] .about-text h2 span {
+    color: #E58A5C;
+}
+
+/* Theme toggle */
+:root[data-theme="dark"] .theme-toggle {
+    background: #263A2F;
+    color: #F3E9D8;
+    border-color: #486050;
+}
+
+/* Footer */
+:root[data-theme="dark"] .footer {
+    background: #0B1510 !important;
+}
+
+/* ICON-ONLY THEME TOGGLE */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: #f5eee6;
+    color: #242321;
+    border: 1px solid #e5d8ca;
+    border-radius: 50%;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="dark"] .theme-toggle {
+    background: #263A2F;
+    color: #F3E9D8;
+    border-color: #536B5A;
+}
+
+:root[data-theme="dark"] .theme-toggle:hover {
+    background: #344C3D;
+}

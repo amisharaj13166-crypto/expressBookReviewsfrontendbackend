@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details | Express Book Reviews</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <header class="header">
+      <nav class="navbar container">
+        <a href="index.html" class="logo">
+          Express Book <span>Reviews.</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="books.html">Explore Books</a></li>
+          <li><a href="index.html#featured">Featured</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="my-reviews.html">My Reviews</a></li>
+          <li><a href="admin.html">Dashboard</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="login.html" class="login-link">Login</a>
+          <a href="register.html" class="btn btn-primary">Join Us</a>
+        </div>
+      </nav>
+    </header>
+
+<main class="page-section">
+    <div class="container">
+        <a href="books.html" class="text-link">← Back to Books</a>
+
+        <div id="bookDetails" class="details-layout">
+            <p>Loading book details...</p>
+        </div>
+
+        <section class="reviews-section">
+            <h2>Reader Reviews</h2>
+            <div id="reviewsList">
+                <p>Loading reviews...</p>
+            </div>
+        </section>
+
+        <section class="review-form-section">
+            <h2>Share Your Review</h2>
+            <p>Login to share your thoughts about this book.</p>
+
+            <form id="reviewForm">
+                <label for="reviewText">Your review</label>
+                <textarea id="reviewText" rows="5"
+                    placeholder="What did you think about this book?"
+                    required></textarea>
+                <button type="submit" class="primary-button">Submit Review</button>
+                <p id="reviewMessage" class="form-message"></p>
+            </form>
+        </section>
+    </div>
+</main>
+
+<footer class="footer">
+      <div class="container footer-content">
+        <div>
+          <a href="index.html" class="logo footer-logo">
+            Express Book <span>Reviews.</span>
+          </a>
+
+          <p>
+            Discover stories. Share thoughts.<br />
+            Make every page count.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="books.html">Explore Books</a>
+          <a href="index.html#featured">Featured</a>
+          <a href="index.html#about">About</a>
+          <a href="my-reviews.html">My Reviews</a>
+          <a href="admin.html">Dashboard</a>
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Express Book Reviews. Built with a love for books.</p>
+      </div>
+    </footer>
+
+<script src="js/app.js"></script>
+<script src="js/details.js"></script>
+<script src="js/theme.js"></script>
+</body>
+</html>
