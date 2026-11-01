@@ -1379,3 +1379,183 @@ button {
     cursor: not-allowed;
     transform: none;
 }
+/* =========================================
+   EDIT REVIEW MODAL
+========================================= */
+
+.review-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(12, 22, 17, 0.75);
+    backdrop-filter: blur(5px);
+}
+
+.review-modal.active {
+    display: flex;
+}
+
+.review-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    padding: 38px;
+    background: #fffaf2;
+    border: 1px solid #e8ded0;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: reviewModalIn 0.25s ease;
+}
+
+@keyframes reviewModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-modal-content h2 {
+    margin: 10px 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 29px;
+    color: #292522;
+}
+
+.review-modal-content .modal-description {
+    color: #77706a;
+    margin-bottom: 24px;
+}
+
+.review-modal-content label {
+    display: block;
+    margin-bottom: 9px;
+    font-weight: 600;
+    color: #403831;
+}
+
+.review-modal-content textarea {
+    width: 100%;
+    min-height: 130px;
+    padding: 14px;
+    border: 1px solid #d9cfc2;
+    border-radius: 9px;
+    resize: vertical;
+    font: inherit;
+    color: #292522;
+    background: #ffffff;
+}
+
+.review-modal-content textarea:focus {
+    outline: none;
+    border-color: #bd6849;
+    box-shadow: 0 0 0 3px rgba(189, 104, 73, 0.12);
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    border: none;
+    background: transparent;
+    color: #77706a;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.modal-actions button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.modal-cancel-button {
+    background: #eee7dc;
+    color: #403831;
+}
+
+.modal-save-button {
+    background: #bd6849;
+    color: #ffffff;
+}
+
+.modal-actions button:hover {
+    transform: translateY(-2px);
+}
+
+.modal-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 500px) {
+    .review-modal-content {
+        padding: 28px 20px;
+    }
+
+    .review-modal-content h2 {
+        font-size: 24px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
+}
+
+/* Review modal feedback */
+.modal-feedback {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #a94e43;
+}
+
+.modal-feedback.error {
+    color: #b7473b;
+}
+
+.review-success-message {
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    background: #e5f1e5;
+    color: #315c38;
+    font-weight: 600;
+}
+
+/* Admin Delete Book Modal Button */
+.modal-delete-button {
+    background: #a94e43;
+    color: #ffffff;
+}
+
+.modal-delete-button:hover {
+    background: #873b33;
+}
+
+.modal-delete-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

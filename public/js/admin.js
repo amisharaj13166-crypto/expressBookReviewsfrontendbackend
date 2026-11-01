@@ -8,6 +8,220 @@ document.addEventListener("DOMContentLoaded", async () => {
   const addBookForm = document.getElementById("addBookForm");
   const logoutButton = document.getElementById("adminLogoutButton");
 
+  // Edit Book Modal elements
+const editBookModal = document.getElementById("editBookModal");
+const editBookForm = document.getElementById("editBookForm");
+
+const editBookISBN = document.getElementById("editBookISBN");
+const editBookName = document.getElementById("editBookName");
+const editBookAuthor = document.getElementById("editBookAuthor");
+const editBookCover = document.getElementById("editBookCover");
+
+const editBookMessage = document.getElementById("editBookMessage");
+const saveEditBookButton = document.getElementById("saveEditBook");
+
+const closeEditBookModalButton =
+    document.getElementById("closeEditBookModal");
+
+const cancelEditBookButton =
+    document.getElementById("cancelEditBook");
+
+// Delete Book Modal elements
+const deleteBookModal = document.getElementById("deleteBookModal");
+const deleteBookDescription =
+    document.getElementById("deleteBookDescription");
+
+const deleteBookMessage = document.getElementById("deleteBookMessage");
+const confirmDeleteBookButton =
+    document.getElementById("confirmDeleteBook");
+
+const closeDeleteBookModalButton =
+    document.getElementById("closeDeleteBookModal");
+
+const cancelDeleteBookButton =
+    document.getElementById("cancelDeleteBook");
+
+let selectedBookId = null;
+let selectedBook = null;
+let selectedDeleteBookId = null;
+
+// Open Edit Book Modal
+function openEditBookModal(id, book) {
+    selectedBookId = id;
+    selectedBook = book;
+
+    editBookISBN.value = book.isbn || "";
+    editBookName.value = book.title || "";
+    editBookAuthor.value = book.author || "";
+    editBookCover.value = book.cover || "";
+
+    editBookMessage.textContent = "";
+
+    editBookModal.classList.add("active");
+    editBookModal.setAttribute("aria-hidden", "false");
+}
+
+// Close Edit Book Modal
+function closeEditBookModal() {
+    editBookModal.classList.remove("active");
+    editBookModal.setAttribute("aria-hidden", "true");
+
+    editBookForm.reset();
+    editBookMessage.textContent = "";
+
+    selectedBookId = null;
+    selectedBook = null;
+
+    saveEditBookButton.disabled = false;
+    saveEditBookButton.textContent = "Save Changes";
+}
+
+// Open Delete Book Modal
+function openDeleteBookModal(id, book) {
+    selectedDeleteBookId = id;
+
+    deleteBookDescription.textContent =
+        `Are you sure you want to delete "${book.title}"?`;
+
+    deleteBookMessage.textContent = "";
+
+    confirmDeleteBookButton.disabled = false;
+    confirmDeleteBookButton.textContent = "Delete Book";
+
+    deleteBookModal.classList.add("active");
+    deleteBookModal.setAttribute("aria-hidden", "false");
+}
+
+// Close Delete Book Modal
+function closeDeleteBookModal() {
+    deleteBookModal.classList.remove("active");
+    deleteBookModal.setAttribute("aria-hidden", "true");
+
+    selectedDeleteBookId = null;
+
+    confirmDeleteBookButton.disabled = false;
+    confirmDeleteBookButton.textContent = "Delete Book";
+}
+
+// Modal close buttons
+closeEditBookModalButton.addEventListener("click", closeEditBookModal);
+cancelEditBookButton.addEventListener("click", closeEditBookModal);
+
+closeDeleteBookModalButton.addEventListener("click", closeDeleteBookModal);
+cancelDeleteBookButton.addEventListener("click", closeDeleteBookModal);
+
+// Close modal when clicking outside
+editBookModal.addEventListener("click", (event) => {
+    if (event.target === editBookModal) {
+        closeEditBookModal();
+    }
+});
+
+deleteBookModal.addEventListener("click", (event) => {
+    if (event.target === deleteBookModal) {
+        closeDeleteBookModal();
+    }
+});
+
+// Close modals using Escape
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        closeEditBookModal();
+        closeDeleteBookModal();
+    }
+});
+
+// Save updated book
+editBookForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!selectedBookId) return;
+
+    const updatedBook = {
+        isbn: editBookISBN.value.trim(),
+        title: editBookName.value.trim(),
+        author: editBookAuthor.value.trim(),
+        cover: editBookCover.value.trim()
+    };
+
+    if (Object.values(updatedBook).some((value) => !value)) {
+        editBookMessage.textContent = "Please fill in all fields.";
+        editBookMessage.className = "modal-feedback error";
+        return;
+    }
+
+    saveEditBookButton.disabled = true;
+    saveEditBookButton.textContent = "Saving...";
+
+    try {
+        const response = await fetch(
+            `/admin/api/books/${encodeURIComponent(selectedBookId)}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "same-origin",
+                body: JSON.stringify(updatedBook)
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Unable to update book.");
+        }
+
+        closeEditBookModal();
+        showMessage("Book updated successfully!");
+        notifyBookChanges();
+        await loadDashboard();
+
+    } catch (error) {
+        editBookMessage.textContent = error.message;
+        editBookMessage.className = "modal-feedback error";
+
+        saveEditBookButton.disabled = false;
+        saveEditBookButton.textContent = "Save Changes";
+    }
+});
+
+// Confirm and delete book
+confirmDeleteBookButton.addEventListener("click", async () => {
+    if (!selectedDeleteBookId) return;
+
+    confirmDeleteBookButton.disabled = true;
+    confirmDeleteBookButton.textContent = "Deleting...";
+
+    try {
+        const response = await fetch(
+            `/admin/api/books/${encodeURIComponent(selectedDeleteBookId)}`,
+            {
+                method: "DELETE",
+                credentials: "same-origin"
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Unable to delete book.");
+        }
+
+        closeDeleteBookModal();
+        showMessage("Book deleted successfully!");
+        notifyBookChanges();
+        await loadDashboard();
+
+    } catch (error) {
+        deleteBookMessage.textContent = error.message;
+        deleteBookMessage.className = "modal-feedback error";
+
+        confirmDeleteBookButton.disabled = false;
+        confirmDeleteBookButton.textContent = "Delete Book";
+    }
+});
+
   // Check administrator session
   async function checkAdminSession() {
     const response = await fetch("/admin/session", {
@@ -160,8 +374,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
-  // Edit and delete books
-  tableBody.addEventListener("click", async (event) => {
+
+ // Edit and delete books
+tableBody.addEventListener("click", async (event) => {
     const button = event.target.closest("button[data-action]");
 
     if (!button) return;
@@ -170,92 +385,34 @@ document.addEventListener("DOMContentLoaded", async () => {
     const action = button.dataset.action;
 
     try {
-      const booksResponse = await fetch("/admin/api/books", {
-  credentials: "same-origin",
-  cache: "no-store",
-});
-
-      if (!booksResponse.ok) {
-        throw new Error("Unable to retrieve book details.");
-      }
-
-      const books = await booksResponse.json();
-      const book = books[id];
-
-      if (!book) {
-        throw new Error("Book not found.");
-      }
-
-      if (action === "edit") {
-        const updatedBook = {
-          isbn: prompt("Enter ISBN:", book.isbn),
-          title: prompt("Enter book title:", book.title),
-          author: prompt("Enter author:", book.author),
-          cover: prompt("Enter cover image URL:", book.cover),
-        };
-
-        // Cancel if any prompt was cancelled
-        if (Object.values(updatedBook).some((value) => value === null)) {
-          return;
-        }
-
-        for (const key in updatedBook) {
-          updatedBook[key] = updatedBook[key].trim();
-        }
-
-        const response = await fetch(
-          `/admin/api/books/${encodeURIComponent(id)}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
+        const booksResponse = await fetch("/admin/api/books", {
             credentials: "same-origin",
-            body: JSON.stringify(updatedBook),
-          },
-        );
+            cache: "no-store"
+        });
 
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.error || "Unable to update book.");
+        if (!booksResponse.ok) {
+            throw new Error("Unable to retrieve book details.");
         }
 
-       showMessage("Book updated successfully!");
-notifyBookChanges();
-await loadDashboard();
-      }
+        const books = await booksResponse.json();
+        const book = books[id];
 
-      if (action === "delete") {
-        const confirmed = confirm(
-          `Are you sure you want to delete "${book.title}"?`,
-        );
-
-        if (!confirmed) return;
-
-        const response = await fetch(
-          `/admin/api/books/${encodeURIComponent(id)}`,
-          {
-            method: "DELETE",
-            credentials: "same-origin",
-          },
-        );
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.error || "Unable to delete book.");
+        if (!book) {
+            throw new Error("Book not found.");
         }
 
-        showMessage("Book deleted successfully!");
-notifyBookChanges();
-await loadDashboard();
-      }
+        if (action === "edit") {
+            openEditBookModal(id, book);
+        }
+
+        if (action === "delete") {
+            openDeleteBookModal(id, book);
+        }
+
     } catch (error) {
-      showMessage(error.message, true);
+        showMessage(error.message, true);
     }
-  });
-
+});
   // Administrator logout
   logoutButton.addEventListener("click", async () => {
     try {

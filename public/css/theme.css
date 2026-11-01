@@ -207,3 +207,33 @@
 :root[data-theme="dark"] .auth-card h1 {
     color: #F3E9D8;
 }
+
+/* Edit Review Modal - Dark Mode */
+:root[data-theme="dark"] .review-modal-content {
+    background: #263A2F;
+    border-color: #3B5144;
+}
+
+:root[data-theme="dark"] .review-modal-content h2,
+:root[data-theme="dark"] .review-modal-content label {
+    color: #F3E9D8;
+}
+
+:root[data-theme="dark"] .review-modal-content .modal-description {
+    color: #B9C8BC;
+}
+
+:root[data-theme="dark"] .review-modal-content textarea {
+    background: #15251C;
+    color: #F3E9D8;
+    border-color: #486050;
+}
+
+:root[data-theme="dark"] .modal-close {
+    color: #F3E9D8;
+}
+
+:root[data-theme="dark"] .modal-cancel-button {
+    background: #3B5144;
+    color: #F3E9D8;
+}
